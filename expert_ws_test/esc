@@ -1,0 +1,165 @@
+[33mcommit 0e5d081715405ab5e79c57cdf3914b641a67cf86[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: mycdj91 <mycdj91@gmail.com>
+Date:   Tue Aug 18 10:50:30 2020 +0900
+
+    scienceon relationship inform
+
+[33mcommit 03a8a6f69a475ea0fcf3872916b91a0436f19f8e[m
+Author: mycdj91 <mycdj91@gmail.com>
+Date:   Wed Aug 12 17:29:43 2020 +0900
+
+    dbpia insert
+
+[33mcommit c596ad90c228e6c1c4791e07933078397c0e8a25[m
+Author: mycdj91 <mycdj91@gmail.com>
+Date:   Tue Aug 11 14:34:57 2020 +0900
+
+    latest cmds
+
+[33mcommit 588f00a14315e01b2b5a1837818f241f92fef406[m
+Author: mycdj91 <mycdj91@gmail.com>
+Date:   Wed Jul 29 16:29:47 2020 +0900
+
+    get Relation with expert factors
+
+[33mcommit 3e5c660644d7f53c82533ae2d2a9b94c6fcb42c5[m
+Author: mycdj91 <mycdj91@gmail.com>
+Date:   Wed Jul 15 17:50:08 2020 +0900
+
+    winston log, expert relation (instance update)
+
+[33mcommit 68fa3973697b7fa39f46633e135362dca5c7e52d[m
+Author: mycdj91 <mycdj91@gmail.com>
+Date:   Fri Jul 10 15:10:59 2020 +0900
+
+    asdasd
+
+[33mcommit 95efa06fef3d8c4c8a58dc71bf63126793942841[m
+Author: mycdj91 <mycdj91@gmail.com>
+Date:   Mon Jul 6 16:46:59 2020 +0900
+
+    get ALL processing
+
+[33mcommit 8eceda5fb69a3ebe766f060a1a265157ee991b52[m
+Author: mycdj91 <mycdj91@gmail.com>
+Date:   Sun Jul 5 20:56:02 2020 +0900
+
+    crawl , a time update
+
+[33mcommit 47ddfb89785feb45e38168ee14cfc71370183802[m
+Author: mycdj91 <mycdj91@gmail.com>
+Date:   Fri Jul 3 01:50:59 2020 +0900
+
+    asd
+
+[33mcommit 0ec23c502e4b79ea2d3982d42b2ead6a3cca0382[m
+Author: mycdj91 <mycdj91@gmail.com>
+Date:   Thu Jul 2 18:27:18 2020 +0900
+
+    dbs update, cmd exec update
+
+[33mcommit 05de1701d79812a4aac1332ae697fcf094860fc8[m
+Author: mycdj91 <mycdj91@gmail.com>
+Date:   Tue Jun 30 19:05:50 2020 +0900
+
+    IF file upload
+
+[33mcommit 92503f19671dd4b60d083800d89eb01c674f251f[m
+Author: mycdj91 <mycdj91@gmail.com>
+Date:   Mon Jun 29 12:53:17 2020 +0900
+
+    year and state keyword search
+
+[33mcommit 963ac9607376044b5ea3358fd7d8fe1f388be946[m
+Author: mycdj91 <mycdj91@gmail.com>
+Date:   Fri Jun 26 17:55:52 2020 +0900
+
+    filedownload fix
+
+[33mcommit 0b871a894f87dae1bf2a2b9776aad83fb65215c0[m
+Author: mycdj91 <mycdj91@gmail.com>
+Date:   Wed Jun 24 21:04:21 2020 +0900
+
+    filedownload / histories ui update
+
+[33mcommit f3c68141fecabca6460edca9de206d707c8f21f6[m
+Author: mycdj91 <mycdj91@gmail.com>
+Date:   Tue Jun 23 20:17:51 2020 +0900
+
+    file download (partially)
+
+[33mcommit 16819c102c1138a7768ea435a120d1958f89ff79[m
+Author: mycdj91 <mycdj91@gmail.com>
+Date:   Mon Jun 22 20:31:41 2020 +0900
+
+    get Expert relations
+
+[33mcommit 5ab4311521d392622fc938435e50f3e6ca40963b[m
+Author: mycdj91 <mycdj91@gmail.com>
+Date:   Thu Jun 18 20:02:35 2020 +0900
+
+    expert ranking
+
+[33mcommit ef12603a021e2de509a8a8be7c152776c58562e5[m
+Author: mycdj91 <mycdj91@gmail.com>
+Date:   Wed Jun 17 19:08:05 2020 +0900
+
+    getExperts(data receving)
+
+[33mcommit e99a111053abaa8c6d9d0e1d9a6e3a77c95ebd97[m
+Author: mycdj91 <mycdj91@gmail.com>
+Date:   Thu Jun 11 20:16:04 2020 +0900
+
+    link with NTIS (requset search)
+
+[33mcommit 5c21b384fa4fd211b22aeaefa83fa0b4dd987a00[m
+Author: mycdj91 <mycdj91@gmail.com>
+Date:   Thu Jun 11 17:01:38 2020 +0900
+
+    db operation module
+
+[33mcommit dba5302859f5a214eee83e3a5b4228ac8dac249b[m
+Author: mycdj91 <mycdj91@gmail.com>
+Date:   Wed Jun 10 21:04:44 2020 +0900
+
+    get / insert module, implment requesetSearch / getHistories
+
+[33mcommit 0dcff66ff9cf8d4ec91f2998c86d00ecb453b62c[m
+Author: mycdj91 <mycdj91@gmail.com>
+Date:   Tue Jun 9 19:42:07 2020 +0900
+
+    connect - mongodb / insert Public Keyword (not check duplication yet)
+
+[33mcommit 3aeb4a8bb9ec6ad973e8a5e091672cdde14e6ed8[m
+Author: mycdj91 <mycdj91@gmail.com>
+Date:   Wed Apr 22 18:07:06 2020 +0900
+
+    sample experts, History data modification
+
+[33mcommit 50459aa0aba55afcaffbf8710e91f975bc033319[m
+Author: mycdj91 <mycdj91@gmail.com>
+Date:   Thu Apr 16 19:25:06 2020 +0900
+
+    requestSearch (sample) / getDetailHistory(sample)
+    
+    host <- read ENV
+    
+    create install.sh file
+
+[33mcommit 2fa2f85aefd6c0afa571cbea5a295cdb59bbbd53[m
+Author: mycdj91 <mycdj91@gmail.com>
+Date:   Mon Apr 13 19:23:31 2020 +0900
+
+    getHistories (test), requestSearch(test) ing.
+
+[33mcommit e1fcf51e9dcc6e1c96aad588e5ecfad4ef395570[m
+Author: mycdj91 <mycdj91@gmail.com>
+Date:   Mon Apr 13 16:23:31 2020 +0900
+
+    remote sync
+
+[33mcommit 509e041ad17ab73304cfe12f9753eb8d9991c38c[m
+Author: mycdj91 <mycdj91@gmail.com>
+Date:   Mon Apr 13 15:59:30 2020 +0900
+
+    Create asd
