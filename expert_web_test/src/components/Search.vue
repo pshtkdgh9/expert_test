@@ -34,64 +34,6 @@
                 <v-card-title>
                   <span class="headline">검색 상세 설정</span>
                 </v-card-title>
-                <v-form v-model="valid">
-                  <v-card-text>
-
-                    <v-container>
-
-                      <template v-bind:props="searches">
-                        <v-text-field :label="new Date().getFullYear()-years+ylabel" required v-model="years" :rules="numRules" min="1" max="30" type="number"></v-text-field>
-                        <v-row v-for="(w, i) in searches" :key="i">
-                          <v-col cols="10" sm="10" md="8">
-                            <v-text-field label="검색어" required v-model="w.word" :rules="wordRules"></v-text-field>
-                          </v-col>
-                          <v-col cols="2" sm="2" md="2">
-                            <v-select label="연산" :items="operations" v-model="w.type"></v-select>
-                          </v-col>
-                          <v-col cols="2" sm="2" md="2">
-                            <v-btn  @click="removeKeyword(i)">삭제
-                            </v-btn>
-                          </v-col>
-                        </v-row>
-                      </template>
-                      <v-row>
-                        <v-col cols="12">
-                          <v-btn class="mx-2" fab color="white" @click="addSearchItem()">
-                            <v-icon dark>add</v-icon>
-                          </v-btn>
-                        </v-col>
-                      </v-row>
-
-                    </v-container>
-                  </v-card-text>
-                  <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn color="blue darken-1" text @click="setKeywords()" :disabled="!valid">Save</v-btn>
-                  </v-card-actions>
-                </v-form>
-              </v-card>
-            </v-dialog>
-          </v-col>
-
-
-
-          <v-col cols="4" md="2" class="ml-10 pl-10">
-            <v-btn color="#B3D4FB" class="ml-6" @click="openSiteDialog()">사이트 설정</v-btn>
-
-            <!-- 사이트 설정 dialog (full) -->
-            <v-dialog v-model="siteDialog" fullscreen hide-overlay transition="dialog-bottom-transition">
-              <v-card>
-                <v-toolbar dark color="primary">
-                  <v-btn icon dark @click="closeSiteDialog()">
-                    <v-icon>close</v-icon>
-                  </v-btn>
-                  <v-toolbar-title>Settings</v-toolbar-title>
-                  <v-spacer></v-spacer>
-                  <v-toolbar-items>
-                    <v-btn dark text @click="siteDialog = false">Save</v-btn>
-                  </v-toolbar-items>
-                </v-toolbar>
-
                 <v-list three-line subheader>
                   <v-subheader>Select Sites</v-subheader>
                   <v-list-item>
@@ -107,7 +49,8 @@
                       <template>
                       <v-row>
                         <v-col cols="7">
-                          <v-checkbox v-model="selected" :label="site.site" :value="site" :disabled="!site.canCrawl"></v-checkbox>
+                          <!-- <v-checkbox v-model="selected" :label="site.site" :value="site" :disabled="!site.canCrawl"></v-checkbox> -->
+                          <v-checkbox v-model="selected" :label="site.site" :value="site" ></v-checkbox>
                         </v-col>
 
                         <v-col cols="5">
@@ -158,6 +101,41 @@
                   </v-list-item>
 
                 </v-list>
+                <v-form v-model="valid">
+                  <v-card-text>
+
+                    <v-container>
+
+                      <template v-bind:props="searches">
+                        <v-text-field :label="new Date().getFullYear()-years+ylabel" required v-model="years" :rules="numRules" min="1" max="30" type="number"></v-text-field>
+                        <v-row v-for="(w, i) in searches" :key="i">
+                          <v-col cols="10" sm="10" md="8">
+                            <v-text-field label="검색어" required v-model="w.word" :rules="wordRules"></v-text-field>
+                          </v-col>
+                          <v-col cols="2" sm="2" md="2">
+                            <v-select label="연산" :items="operations" v-model="w.type"></v-select>
+                          </v-col>
+                          <v-col cols="2" sm="2" md="2">
+                            <v-btn  @click="removeKeyword(i)">삭제
+                            </v-btn>
+                          </v-col>
+                        </v-row>
+                      </template>
+                      <v-row>
+                        <v-col cols="12">
+                          <v-btn class="mx-2" fab color="white" @click="addSearchItem()">
+                            <v-icon dark>add</v-icon>
+                          </v-btn>
+                        </v-col>
+                      </v-row>
+
+                    </v-container>
+                  </v-card-text>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="blue darken-1" text @click="setKeywords()" :disabled="!valid">Save</v-btn>
+                  </v-card-actions>
+                </v-form>
               </v-card>
             </v-dialog>
           </v-col>
@@ -255,7 +233,7 @@ export default {
           {'site' : 'SCIENCEON', 'canCrawl' : true , 'filter' : true},
           {'site' : 'DBPIA', 'canCrawl' : true , 'filter' :  true},
           {'site' : 'SCOPUS', 'canCrawl' : true, 'filter' : true, 'fab' : false},
-          {'site' : 'WOS', 'canCrawl' : true, 'filter' : true, 'fab' : false},
+          {'site' : 'WOS', 'canCrawl' : false, 'filter' : true, 'fab' : false},
           {'site' : 'KCI', 'canCrawl' : true, 'filter' :  true }
         ],
         operations: ['AND', 'OR', 'NOT'],
