@@ -4,7 +4,7 @@
 :pushpin: [학술대회](https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE11112596)
 
 ## 바로가기
-1. [제작기간 & 참여 인원]
+1. [제작기간 & 참여 인원](https://github.com/pshtkdgh9/expert_test/README.md#1)
 2. [핵심 기능]
 
 <br>
