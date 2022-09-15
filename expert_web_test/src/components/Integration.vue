@@ -771,7 +771,7 @@ export default {
       filterDis : true,
       panel : [0, 1],
       ylabel : " 년 이후 논문 수집",
-      years : 10,
+      years : 5,
       valid : true,
       comp: 'History',
       searchDialog: false,
