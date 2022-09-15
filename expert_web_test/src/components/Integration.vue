@@ -19,7 +19,7 @@
 </v-row>
 
 <v-row>
-  <v-col>
+  <v-col md="2">
     <v-btn class="ml-2" @click="setFilter()" :disabled="filterDis">필터 적용</v-btn>
   </v-col>
         <v-col cols="12" md="5" class="pl-8">
@@ -40,8 +40,7 @@
           <v-btn class="mx-4" color="success" :disabled="!valid"  @click="onSearch()">검색</v-btn>
 
           <v-btn class="mx-4" color="primary" @click="openDetailSearch()">상세 검색</v-btn>
-
-          <v-dialog v-model="searchDialog" persistent max-width="600px">
+          <v-dialog v-model="searchDialog" persistent max-width="800px">
             <v-card>
               <v-card-title>
                 <span class="headline">검색 상세 설정</span>
@@ -51,67 +50,62 @@
                 <v-list-item>
                   <v-list-item-action>
                     <v-checkbox type="checkbox" v-model.lazy="selectAll" label="모든 사이트"></v-checkbox>
+
                   </v-list-item-action>
                 </v-list-item>
                 <v-divider></v-divider>
+                <v-list-item>
+                <v-chip v-for="(site, idx) in sites" :key="idx"
+                class="pa-1"
+                color="white"
+                text-color="black"
+                x-large
+                >
+                  <!-- <v-checkbox v-model="selected" :label="site.site" :value="site" :disabled="!site.canCrawl"></v-checkbox> -->
+                  <v-checkbox v-model="selected" :label="site.site" :value="site" ></v-checkbox>
+                  <v-speed-dial
+                  v-show="(site.site === 'WOS' && site.canCrawl ) || (site.site === 'SCOPUS' && site.canCrawl )"
+                  v-model="site.fab"
 
-
-                <v-list-item v-for="(site, idx) in sites" :key="idx">
-                  <v-list-item-action>
-                    <template>
-                    <v-row>
-                      <v-col cols="7">
-                        <!-- <v-checkbox v-model="selected" :label="site.site" :value="site" :disabled="!site.canCrawl"></v-checkbox> -->
-                        <v-checkbox v-model="selected" :label="site.site" :value="site" ></v-checkbox>
-                      </v-col>
-
-                      <v-col cols="5">
-                        <v-speed-dial
-                        v-show="(site.site === 'WOS' && site.canCrawl ) || (site.site === 'SCOPUS' && site.canCrawl )"
-                        v-model="site.fab"
-
-                       direction="right"
-                       :open-on-hover="true"
-                       transition="slide-x-transition"
-                     >
-                     <template v-slot:activator>
-                       <v-btn
-                         color="blue darken-2"
-                         dark
-                         fab
-                         x-small
-                         class="pa-5"
-                         >
-                         {{filterMsg[site.filter]}}
-                       </v-btn>
-                     </template>
-                     <v-btn
-                       fab
-                       dark
-                       x-small
-                       color="green"
-                       class="pa-5"
-                       @click="site.filter=true"
-                     >
-                     ALL
-                     </v-btn>
-                     <v-btn
-                       fab
-                       dark
-                       x-small
-                       color="indigo"
-                       class="pa-5"
-                       @click="site.filter=false"
-                     >
-                       Korea
-                     </v-btn>
-                    </v-speed-dial>
-                  </v-col>
-                </v-row>
-              </template>
-                  </v-list-item-action>
-                </v-list-item>
-
+                 direction="bottom"
+                 :open-on-hover="true"
+                 transition="slide-x-transition"
+                >
+                <template v-slot:activator>
+                 <v-btn
+                   color="blue darken-2"
+                   dark
+                   fab
+                   x-small
+                   class="pa-5"
+                   @click="hidden  = !hidden,site.filter = !site.filter"
+                   >
+                   {{hidden ? filterMsg[site.filter] : filterMsg[site.filter] }}
+                 </v-btn>
+                </template>
+                <!-- <v-btn
+                 fab
+                 dark
+                 x-small
+                 color="green"
+                 class="pa-5"
+                 @click="site.filter=true"
+                >
+                ALL
+                </v-btn>
+                <v-btn
+                 fab
+                 dark
+                 x-small
+                 color="indigo"
+                 class="pa-5"
+                 @click="site.filter=false"
+                >
+                 Korea
+                </v-btn> -->
+                </v-speed-dial>
+                </v-chip>
+              </v-list-item>
               </v-list>
               <v-form v-model="valid">
                 <v-card-text>
@@ -208,7 +202,6 @@
           v-bind="attrs"
           v-on="on"
           @click="getRankInsts2()"
-
         >
           기관 랭킹
         </v-btn>
@@ -789,9 +782,10 @@ export default {
         {'site' : 'NTIS', 'canCrawl' : true, 'filter' : true},
         {'site' : 'SCIENCEON', 'canCrawl' : true , 'filter' : true},
         {'site' : 'DBPIA', 'canCrawl' : true , 'filter' :  true},
+        {'site' : 'KCI', 'canCrawl' : true, 'filter' :  true },
         {'site' : 'SCOPUS', 'canCrawl' : true, 'filter' : true, 'fab' : false},
-        {'site' : 'WOS', 'canCrawl' : false, 'filter' : true, 'fab' : false},
-        {'site' : 'KCI', 'canCrawl' : true, 'filter' :  true }
+        {'site' : 'WOS', 'canCrawl' : false, 'filter' : true, 'fab' : false}
+
       ],
       operations: ['AND', 'OR', 'NOT'],
       keywords : "",
