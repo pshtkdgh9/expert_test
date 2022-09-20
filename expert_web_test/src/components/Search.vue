@@ -229,7 +229,7 @@ export default {
           {'site' : 'DBPIA', 'canCrawl' : true , 'filter' :  true},
           {'site' : 'KCI', 'canCrawl' : true, 'filter' :  true },
           {'site' : 'SCOPUS', 'canCrawl' : true, 'filter' : true, 'fab' : false},
-          {'site' : 'WOS', 'canCrawl' : false, 'filter' : true, 'fab' : false}
+          {'site' : 'WOS', 'canCrawl' : true, 'filter' : true, 'fab' : false}
 
         ],
         operations: ['AND', 'OR', 'NOT'],
@@ -368,7 +368,12 @@ export default {
           if (!this.checksites()){
             if(this.checkKor(this.keywords.trim())){
               this.$store.commit('showSnack', "해외 사이트는 한글 검색이 지원 되지 않습니다.");
+              this.removeEnsites();
+              if(this.checkDuplicationHistories())
                 return;
+
+
+              this.search();
             }
         }
           if(this.checkDuplicationHistories())
@@ -482,9 +487,9 @@ export default {
         // }
       },
       checksites(){
-        //console.log("sites : ",this.selected)
+        console.log("before sites : ",this.selected)
         for (let site in this.selected) {
-          //console.log("site:",this.selected[site].site)
+          // console.log("site:",this.selected[site].site)
         if (this.selected[site].site == "SCOPUS" || this.selected[site].site == "WOS"){
           return false
         }
@@ -499,6 +504,17 @@ export default {
          return false;
      }
  },
+    removeEnsites(){
+      for (let site = 0; site< this.selected.length; site++) {
+        //console.log("site:",this.selected[site].site)
+        if (this.selected[site].site == "SCOPUS"||this.selected[site].site == "WOS"){
+          this.selected.splice(site,1);
+          site--;
+          console.log("after site:",this.selected)
+      }
+    }
+
+    },
 
     }
   }
