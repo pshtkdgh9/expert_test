@@ -109,6 +109,11 @@
        @click="goIntegrationPage(item._id, item.query_keyword, item)"
       >{{  mdiChevronRightCircle  }}</v-icon>
     </template>
+    <template v-slot:item.stop="{ item }">
+       <v-icon
+        @click="getDetailHistory(item._id, getHistories.indexOf(item), item.sites[0].progress)"
+       >{{  mdiClose  }}</v-icon>
+     </template>
 
 
    <template v-slot:item.removeaction="{ item }">
@@ -119,7 +124,7 @@
 
 </v-data-table>
 
-<v-dialog
+    <v-dialog
          v-model="dialog"
          max-width="500px"
        >
@@ -181,7 +186,7 @@
 
 </template>
 <script>
-import {  mdiChevronRightCircle , mdiDelete , mdiDatabaseEdit  } from '@mdi/js';
+import {  mdiChevronRightCircle , mdiDelete , mdiDatabaseEdit, mdiClose  } from '@mdi/js';
 import Vue from 'vue'
   export default {
     data() {
@@ -192,6 +197,7 @@ import Vue from 'vue'
         isExpandAll : false,
         dialog : false,
         mdiChevronRightCircle  :  mdiChevronRightCircle ,
+        mdiClose : mdiClose,
         mdiDelete   : mdiDelete ,
         mdiDatabaseEdit : mdiDatabaseEdit ,
         expanded: [],
@@ -221,6 +227,7 @@ import Vue from 'vue'
          { text: '논문 검색 연도', value: 'year', sortable: false , align: 'center' },
          { text: '상세 보기', value: 'actions',sortable: false , align: 'center' },
           { text: '통합 결과', value: 'integration',sortable: false , align: 'center' },
+          { text: '수집 종료', value: 'stop',sortable: false , align: 'center' },
 
        ],
        headers2: [
@@ -309,8 +316,8 @@ import Vue from 'vue'
 
           }else {
             // component.headers.push({ text: 'Actions', value: 'actions', sortable: false })
-            tempHeader.splice(7, 1);
-            tempHeader2.splice(7, 1);
+            tempHeader.splice(8, 1);
+            tempHeader2.splice(8, 1);
 
           }
         }
