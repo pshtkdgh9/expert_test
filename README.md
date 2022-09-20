@@ -1,7 +1,9 @@
 # 😈 Expert Ranking Team 👩‍💻
 >전문가 랭킹 웹 사이트
 
-:pushpin: [학술대회 논문](https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE11112596)
+:pushpin: [학술대회 논문1](https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE11112596)
+
+:pushpin: [학술대회 논문2](https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE11112758)
 
 ## 바로가기
 1. [제작기간 & 참여 인원]
