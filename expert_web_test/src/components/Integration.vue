@@ -1112,18 +1112,23 @@ filterListPaper : { "j" : {"value" : "저널명", "list" : ["한국", "콘텐츠
           this.$store.commit('showSnack', "특수 문자를 입력할 수 없습니다.");
           return;
         }
-        if (!this.checksites()){
-          if(this.checkKor(this.keywords.trim())){
-            this.$store.commit('showSnack', "해외 사이트는 한글 검색이 지원되지 않습니다.");
-              return;
-          }
-      }
-        if(this.checkDuplicationHistories())
-          return;
+          if (!this.checksites()){
+            if(this.checkKor(this.keywords.trim())){
+              this.$store.commit('showSnack', "해외 사이트는 한글 검색이 지원 되지 않습니다.");
+              this.removeEnsites();
+                if(this.checkDuplicationHistories())
+                  return;
 
 
-        this.search();
+                this.search();
+              }
+         }else{
+           if(this.checkDuplicationHistories())
+            return;
 
+
+           this.search();
+        }
       }else{
         this.$store.commit('showSnack', "키워드를 입력해주세요")
       }
@@ -1423,6 +1428,17 @@ filterListPaper : { "j" : {"value" : "저널명", "list" : ["한국", "콘텐츠
     }else{
         return false;
     }
+},
+  removeEnsites(){
+  for (let site = 0; site< this.selected.length; site++) {
+    //console.log("site:",this.selected[site].site)
+    if (this.selected[site].site == "SCOPUS"||this.selected[site].site == "WOS"){
+      this.selected.splice(site,1);
+      site--;
+      console.log("after site:",this.selected)
+  }
+}
+
 },
   homepage_url(homepage){
     homepage = "http://"+homepage
