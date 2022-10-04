@@ -898,6 +898,16 @@ export const store = new Vuex.Store({
 				console.log('setNtis',response.data)
 			})
 		},
+		getstopPage: (context, data) => {
+			console.log("stopPage",data)
+			get(context, 'getstopPage', data);
+
+			// return post(context, 'getIntegrationData', data).then(response => {
+			// 	// response.data
+			// 	console.log('RESPONSE.DATA', response.data);
+			// 	context.commit('setFilters', response.data);
+			// });
+		},
 
 		}
 

@@ -365,19 +365,25 @@ export default {
             this.$store.commit('showSnack', "특수 문자를 입력할 수 없습니다.");
             return;
           }
-            if (!this.checksites()){
-              if(this.checkKor(this.keywords.trim())){
-                this.$store.commit('showSnack', "해외 사이트는 한글 검색이 지원 되지 않습니다.");
-                this.removeEnsites();
-                  if(this.checkDuplicationHistories())
-                    return;
+          if (!this.checksites()){
+            if(this.checkKor(this.keywords.trim())){
+              this.$store.commit('showSnack', "해외 사이트는 한글 검색이 지원 되지 않습니다.");
+              this.removeEnsites();
+                if(this.checkDuplicationHistories())
+                  return;
 
 
-                  this.search();
-                }
-           }else{
+                this.search();
+            }else{
+              if(this.checkDuplicationHistories())
+                return;
+
+
+              this.search();
+            }
+         }else{
              if(this.checkDuplicationHistories())
-              return;
+               return;
 
 
              this.search();

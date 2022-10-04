@@ -111,7 +111,7 @@
     </template>
     <template v-slot:item.stop="{ item }">
        <v-icon
-        @click="getDetailHistory(item._id, getHistories.indexOf(item), item.sites[0].progress)"
+       @click="stopPage(item._id, item.query_keyword, item)"
        >{{  mdiClose  }}</v-icon>
      </template>
 
@@ -354,6 +354,12 @@ import Vue from 'vue'
         this.$router.push({name: 'integration'});
 
       },
+      stopPage(id, query_keyword, item){
+      console.log('ITEM', item);
+
+      // this.$store.dispatch('getIntegrationData', {'id' : id, 'query_keyword' : query_keyword, 'sites' : item.sites});
+      this.$store.dispatch('getstopPage', {'id' : id, 'query_keyword' : query_keyword});
+    },
       close(){
         this.dialog = false;
       },
