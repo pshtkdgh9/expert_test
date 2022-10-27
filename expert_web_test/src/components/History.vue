@@ -317,7 +317,7 @@ import Vue from 'vue'
           }else {
             // component.headers.push({ text: 'Actions', value: 'actions', sortable: false })
             tempHeader.splice(8, 1);
-            tempHeader2.splice(8, 1);
+            tempHeader2.splice(7, 1);
 
           }
         }
@@ -351,6 +351,8 @@ import Vue from 'vue'
 
         // this.$store.dispatch('getIntegrationData', {'id' : id, 'query_keyword' : query_keyword, 'sites' : item.sites});
         this.$store.dispatch('getIntegrationData', {'id' : id, 'query_keyword' : query_keyword});
+        // let routerData = this.$router.resolve({path:"/integration", query : {"id":id,'query_keyword' : query_keyword}});
+        // window.open(routerData.href);
         this.$router.push({name: 'integration'});
 
       },

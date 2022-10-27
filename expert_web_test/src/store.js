@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import createPersistedState from 'vuex-persistedstate'
 import {
 	get,
 	post
@@ -185,6 +186,11 @@ export const setLoading = (ctxt, isLoading) => {
 
 
 export const store = new Vuex.Store({
+	plugins: [
+    createPersistedState({
+      storage: window.sessionStorage // store를 session storage 에 유지
+    })
+  ],
 	// --------------------------------state -------------------------------------------------------------------------------------------------
 	state: {
 		isLoading: false,
@@ -198,7 +204,7 @@ export const store = new Vuex.Store({
 		activeInnerTab: {},
 		tabs: [],
 		sites: {},
-		integrations: [],
+		integrations: {"Domestic" :[],"International":[]},
 		igID: -1,
 		igKeyword: "",
 		filters: {
@@ -206,6 +212,8 @@ export const store = new Vuex.Store({
 			"paper": {}
 		},
 		igTotal: 0,
+		igDomestic:0,
+		igInternational:0,
 		igRaw: {},
 		prevfId: 0,
 		rankinst : [],
@@ -418,66 +426,47 @@ export const store = new Vuex.Store({
 			console.log('Filters completed')
 		},
 		setIntegrationResult: (state, igResult) => {
-			// let sites = ['Scienceon', 'NTIS', 'DBPIA', 'KCI'];
-			// let inst = "";
-			// let numPapers = 0;
-			// let numProjects = 0;
-			// let numCitations = 0;
-			// let numCoop = 0;
-			// let recYear = 0;
-			igResult.result.forEach((author) => {
-				// sites.forEach((site) => {
-				// 	if (author[site] !== undefined) {
-				// 		// inst = author[site].inst;
-				//
-				// 		if (site == 'NTIS') {
-				// 			numProjects += author[site].papers.length;
-				// 		} else {
-				// 			numPapers += author[site].papers.length;
-				// 		}
-				// 	}
-				// });
-				// author.raw.forEach((_raw) => {
-				// 	if (_raw.site != 'NTIS') {
-				// 		if (parseInt(_raw.issue_year) > recYear) {
-				// 			recYear = parseInt(_raw.issue_year);
-				// 		}
-				// 		numCitations += parseInt(_raw.citation);
-				// 	}
-				// });
 
+			igResult.result.forEach((author)=>{
+			//	d_or_i.forEach((author) => {
+					author.numPapers += "건";
+					author.rKeywords = '-';
+					author.network = '-';
+					author.webSearch = 'https://www.google.com/search?q=' + author.name + "+" + author.inst;
+					author.numProjects += "건";
+					author.totalCitation += "회";
+					author.totalCoop += "건";
+					if (author.recentYear == '0') {
+						author.recentYear = '-';
+					} else {
+						author.recentYear += "년";
+					}
+			//	});
 
-				// author.inst = inst;
-				author.numPapers += "건";
-				author.rKeywords = '-';
-				// author.coopHist = '-';
-				// author.score = '-';
-				author.network = '-';
-				author.webSearch = 'https://www.google.com/search?q=' + author.name + "+" + author.inst;
-				author.numProjects += "건";
-				author.totalCitation += "회";
-				author.totalCoop += "건";
-				if (author.recentYear == '0') {
-					author.recentYear = '-';
-				} else {
-					author.recentYear += "년";
-				}
-				//author.ngvCoop = '-';
+		});
 
+		//	var igs = {'Domestic':[], 'International':[]}
+    //   for (let data = 0; data< igResult.result.length; data++) {
+    //     //console.log("site:",this.selected[site].site)
+    //     if (igResult.result[data].Country == "Domestic"){
+    //       igs.Domestic.push(igResult.result[data])
+    //       }
+    //     else{
+    //       igs.International.push(igResult.result[data])
+		//
+    //     }
+    // }
+		if(igResult.flag == 0)
+		state.integrations.Domestic = igResult.result;
 
-				// recYear = 0;
-				// numCoop = 0;
-				// numCitations = 0;
-				// numProjects = 0;
-				// numPapers = 0;
-				// inst = "";
-			});
+		else {
+		state.integrations.International = igResult.result;
+		}
 
-
-
-
-			state.integrations = igResult.result;
+			//state.integrations = igs;
+			// state.integrations = igResult.result;
 			console.log('STATE.INTEGRATIONS ', state.integrations);
+
 
 
 		},
@@ -847,8 +836,17 @@ export const store = new Vuex.Store({
 			return post(context, 'getIntegrationResult', data).then(response => {
 				// response.data
 				console.log('RESPONSE.DATA', response.data);
-				context.commit('setIntegrationResult', response.data);
+				let temp = {};
+				temp.result =  response.data.Domestic_res;
+				temp.flag = 0;
+				context.commit('setIntegrationResult', temp);
+				temp.result =  response.data.International_res;
+				temp.flag = 1;
+				context.commit('setIntegrationResult', temp);
+
 				context.state.igTotal = response.data.totalExperts;
+				context.state.igDomestic = response.data.DomesticExperts;
+				context.state.igInternational = response.data.InternationalExperts;
 				if (response.data.prevfId != 0)
 					context.state.prevfId = response.data.prevfId;
 				context.commit('setFilters', response.data.filters);
@@ -879,6 +877,7 @@ export const store = new Vuex.Store({
 
 			return post(context, 'getReloadPage', data).then(response => {
 				// response.data
+				response.data.flag = data.flag;
 				console.log('RESPONSE.DATA', response.data);
 				context.commit('setIntegrationResult', response.data);
 				//	context.commit('setIntegrationRaw', response.data);

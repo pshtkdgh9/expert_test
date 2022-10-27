@@ -306,12 +306,31 @@ class="overflow-y-auto"
    :expanded.sync="expanded"
 show-expand
  -->
-     <v-col cols="10" max-width="250px">
+  <v-col cols="10" max-width="250px">
+   <v-tabs horizontal>
+     <v-tab>
+       Domestic
+     </v-tab>
+     <v-tab>
+       International
+     </v-tab>
+     <v-tab-item>
+       <v-card flat>
+            <v-card-text>
+
+
+            <!-- <v-tab style="width:250px" class="text-subtitle-2" v-for="contry in ContryFilters" :key="contry">{{contry}}</v-tab>
+          </v-tabs> -->
+          <!-- <v-tabs-items v-model="tab">
+          <v-tab-item
+            v-for="contry in ContryFilters"
+            :key="contry"
+            > -->
     <v-data-table
         ref="vuetable"
         :headers="headers"
-        :items="getIgs"
-        :server-items-length="getTotal()"
+        :items="getDomesticIgs"
+        :server-items-length="getDomesticTotal()"
         :options.sync="options"
         :expanded.sync="expanded"
         item-key="_id"
@@ -321,11 +340,9 @@ show-expand
         @item-expanded="loadDetails"
         multi-line
         :footer-props="{
-    'items-per-page-options': [10, 20, 30, getTotal()]
-  }"
-      >
+    'items-per-page-options': [10, 20, 30, getDomesticTotal()]}">
       <template v-slot:item.inst="{ item }">
-<v-tooltip bottom>
+        <v-tooltip bottom>
        <template v-slot:activator="{ on, attrs }">
      <span
        v-bind="attrs"
@@ -341,15 +358,11 @@ show-expand
    <span
    v-if="item.inst.length >20">{{item.inst}}</span>
    </v-tooltip>
-
-
       </template>
        <template v-slot:item.LDA="{ item }">
          <span>{{makeLdaList(item.LDA)}}</span>
     </template>
-
        <template v-slot:item.totalCoop="{ item }">
-
          <v-tooltip bottom v-if="parseInt(item.totalCoop) > 0">
         <template v-slot:activator="{ on, attrs }">
          <span
@@ -357,22 +370,16 @@ show-expand
          v-on="on"
          >{{item.totalCoop}}</span>
          </template>
-
          <span>{{makeCoopList(item.coopList)}}</span></v-tooltip>
-
        </template>
        <template v-slot:item.ngvCoop="{ item }">
          <span>{{item.ngvCoop}}</span>
     </template>
-
        <template v-slot:item.score="{ item }">
-
        <v-speed-dial
       direction="left"
       :open-on-hover="true"
-      transition="slide-x-transition"
-    >
-
+      transition="slide-x-transition">
     <template v-slot:activator>
       <v-btn
         color="blue darken-2"
@@ -382,30 +389,23 @@ show-expand
         class="pa-5"
         >
         {{item.score}}
-
       </v-btn>
     </template>
-
     <v-btn
       fab
       dark
       x-small
       color="green"
       class="pa-5"
-      style="width:65px"
-
-    >
+      style="width:65px">
       주제적합도  <br />{{(item.factor.acc*30).toFixed(1)}}
-
     </v-btn>
     <v-btn
       fab
       dark
       x-small
       color="indigo"
-      class="pa-5"
-
-    >
+      class="pa-5">
       생산성  <br />{{(item.factor.qunt*30).toFixed(1)}}
     </v-btn>
     <v-btn
@@ -413,9 +413,7 @@ show-expand
       dark
       x-small
       color="purple"
-      class="pa-5"
-
-    >
+      class="pa-5">
   품질  <br />{{(item.factor.qual*30).toFixed(1)}}
     </v-btn>
     <v-btn
@@ -439,11 +437,11 @@ show-expand
 
        <template v-slot:expanded-item="{ item}" style="maxWidth : 500px">
          <td :colspan="headers.length"  style="maxWidth : 500px" >
-    <v-list
-      subheader
-      three-line
-      style="width : 100%"
-    >
+          <v-list
+            subheader
+            three-line
+            style="width : 100%"
+          >
       <template v-for="(raw, _idx) in item.raw">
      <v-divider inset :key="raw.idx"></v-divider>
      <v-subheader inset :key="raw.site+raw.id" v-if="_idx == 0 && raw.site == 'NTIS'">연구 과제
@@ -743,8 +741,441 @@ show-expand
            </v-row> -->
        </template>
       </v-data-table>
+  </v-card-text>
+        </v-card>
+    </v-tab-item>
+    <v-tab-item>
+      <v-card flat>
+           <v-card-text>
 
-      </v-col>
+
+           <!-- <v-tab style="width:250px" class="text-subtitle-2" v-for="contry in ContryFilters" :key="contry">{{contry}}</v-tab>
+         </v-tabs> -->
+         <!-- <v-tabs-items v-model="tab">
+         <v-tab-item
+           v-for="contry in ContryFilters"
+           :key="contry"
+           > -->
+   <v-data-table
+       ref="vuetable"
+       :headers="headers"
+       :items="getInternationalIgs"
+       :server-items-length="getInternationalTotal()"
+       :options.sync="options2"
+       :expanded.sync="expanded2"
+       item-key="_id"
+       :loading = "loading2"
+       show-expand
+       class="elevation-1"
+       @item-expanded="loadDetails2"
+       multi-line
+       :footer-props="{
+   'items-per-page-options': [10, 20, 30, getInternationalTotal()]}">
+     <template v-slot:item.inst="{ item }">
+       <v-tooltip bottom>
+      <template v-slot:activator="{ on, attrs }">
+    <span
+      v-bind="attrs"
+      v-on="on"
+      v-if="item.inst.length <20"
+    >{{item.inst}}</span>
+    <span
+      v-bind="attrs"
+      v-on="on"
+      v-else>
+    {{item.inst.substring(0,20)+"..."}}</span>
+  </template>
+  <span
+  v-if="item.inst.length >20">{{item.inst}}</span>
+  </v-tooltip>
+     </template>
+      <template v-slot:item.LDA="{ item }">
+        <span>{{makeLdaList(item.LDA)}}</span>
+   </template>
+      <template v-slot:item.totalCoop="{ item }">
+        <v-tooltip bottom v-if="parseInt(item.totalCoop) > 0">
+       <template v-slot:activator="{ on, attrs }">
+        <span
+        v-bind="attrs"
+        v-on="on"
+        >{{item.totalCoop}}</span>
+        </template>
+        <span>{{makeCoopList(item.coopList)}}</span></v-tooltip>
+      </template>
+      <template v-slot:item.ngvCoop="{ item }">
+        <span>{{item.ngvCoop}}</span>
+   </template>
+      <template v-slot:item.score="{ item }">
+      <v-speed-dial
+     direction="left"
+     :open-on-hover="true"
+     transition="slide-x-transition">
+   <template v-slot:activator>
+     <v-btn
+       color="blue darken-2"
+       dark
+       fab
+       x-small
+       class="pa-5"
+       >
+       {{item.score}}
+     </v-btn>
+   </template>
+   <v-btn
+     fab
+     dark
+     x-small
+     color="green"
+     class="pa-5"
+     style="width:65px">
+     주제적합도  <br />{{(item.factor.acc*30).toFixed(1)}}
+   </v-btn>
+   <v-btn
+     fab
+     dark
+     x-small
+     color="indigo"
+     class="pa-5">
+     생산성  <br />{{(item.factor.qunt*30).toFixed(1)}}
+   </v-btn>
+   <v-btn
+     fab
+     dark
+     x-small
+     color="purple"
+     class="pa-5">
+ 품질  <br />{{(item.factor.qual*30).toFixed(1)}}
+   </v-btn>
+   <v-btn
+     fab
+     dark
+     x-small
+     color="teal lighten-3"
+     class="pa-5"
+
+   >
+협업도  <br />{{(item.factor.coop*10).toFixed(1)}}
+
+   </v-btn>
+  </v-speed-dial>
+  </template>
+
+     <template v-slot:item.webSearch="{ item }">
+       <a :href="item.webSearch" target="_blank">검색</a>
+      </template>
+
+
+      <template v-slot:expanded-item="{ item}" style="maxWidth : 500px">
+        <td :colspan="headers.length"  style="maxWidth : 500px" >
+         <v-list
+           subheader
+           three-line
+           style="width : 100%"
+         >
+     <template v-for="(raw, _idx) in item.raw">
+    <v-divider inset :key="raw.idx"></v-divider>
+    <v-subheader inset :key="raw.site+raw.id" v-if="_idx == 0 && raw.site == 'NTIS'">연구 과제
+      <div class="text-center">
+     <v-dialog
+       v-model="dialog"
+       width="500"
+     >
+       <template v-slot:activator="{ on, attrs }">
+         <v-col cols="5" md="2">
+           <v-btn
+             color="blue"
+             class="ml-6"
+             dark
+             v-bind="attrs"
+             v-on="on"
+             @click="getNtisAPI(item.NTIS.A_id)"
+           >
+             저자 정보
+           </v-btn>
+       </v-col>
+       </template>
+
+       <v-card v-if="getAuthorurl.length == 0" >
+         <v-card-title  class="text-h5 grey lighten-2">
+           {{item.name}}
+         </v-card-title>
+
+         <v-card-text>
+           {{item.inst}}
+         </v-card-text>
+
+         <v-divider></v-divider>
+
+         <v-card-actions>
+           <v-spacer></v-spacer>
+           <v-btn
+             color="primary"
+             text
+             @click="dialog = false"
+           >
+             CLOSE
+           </v-btn>
+         </v-card-actions>
+       </v-card>
+       <v-card
+       v-else>
+         <v-card-title  class="text-h5 grey lighten-2">
+           {{item.name}}
+           <div>({{getAuthorurl[0].Ename}})</div>
+           <v-spacer></v-spacer>
+           <a :href="getAuthorurl[0].ntis_URL" target="_blank">more</a>
+           <v-btn :ripple="false" icon color="black" id="no-background-hover"
+           :href="homepage_url(getAuthorurl[0].Homepage)" target="_blank">
+           <v-icon>
+           home
+           </v-icon>
+           </v-btn>
+         </v-card-title>
+
+         <v-card-text>
+           <div
+           class="text-h5"
+           align="left">학력</div>
+           <v-divider class="mx-3"></v-divider>
+           <v-list
+           class="wrap-text">
+             <template v-for="(item, value, index) in getAuthorurl[0].academic_background">
+               <v-subheader
+                 v-if="item.header"
+                 :key="item.header"
+               >
+                 {{ item.header }}
+               </v-subheader>
+               <v-divider
+                 v-else-if="item.divider"
+                 :key="index"
+               ></v-divider>
+               <v-list-item
+                 v-else
+                 :key="item"
+               >
+                 <v-list-item-content>
+                   <v-list-item-title >
+                     <div style="white-space:pre-wrap">{{item}}</div>
+                   </v-list-item-title>
+                 </v-list-item-content>
+               </v-list-item>
+             </template>
+           </v-list>
+           <div
+           class="text-h5"
+           align="left">경력</div>
+           <v-divider class="mx-4"></v-divider>
+           <v-list
+           align="left">
+             <template v-for="(item, value, index) in getAuthorurl[0].Career">
+               <v-subheader
+                 v-if="item.header"
+                 :key="item.header"
+               >
+                 {{ item.header }}
+               </v-subheader>
+               <v-divider
+                 v-else-if="item.divider"
+                 :key="index"
+               ></v-divider>
+               <v-list-item
+                 v-else
+                 :key="item"
+               >
+                 <v-list-item-content>
+                   <v-list-item-title >
+                     <div style="white-space:pre-wrap">{{item}}</div>
+                   </v-list-item-title>
+                 </v-list-item-content>
+               </v-list-item>
+             </template>
+           </v-list>
+         </v-card-text>
+
+
+         <v-divider></v-divider>
+
+         <v-card-actions>
+           <v-spacer></v-spacer>
+           <v-btn
+             color="primary"
+             text
+             @click="dialog = false"
+           >
+             CLOSE
+           </v-btn>
+         </v-card-actions>
+       </v-card>
+     </v-dialog>
+   </div>
+       </v-subheader>
+    <v-subheader :key="raw.id" inset v-if="(_idx == 0 && raw.site !='NTIS') ||( _idx!=0 && item.raw[_idx-1].site == 'NTIS' && raw.site !='NTIS')">논문</v-subheader>
+    <v-list-item
+    :key="raw._id"
+     >
+     <v-list-item-avatar>
+         {{raw.idx}}
+       </v-list-item-avatar>
+
+     <v-list-item-content v-if="raw.site=='NTIS'">
+        <v-list-item-title  class="text-sm-left">{{raw.koTitle}}
+         / {{ raw.odAgency }} / 연구책임자({{raw.mng}}) / {{transFund(raw.totalFund)}}
+        </v-list-item-title>
+
+        <v-list-item-subtitle class="text-sm-left" >
+          과제키워드 : {{raw.enKeyword}} /
+          연구기간 : {{ raw.prdStart.slice(0,4)}} ~ {{raw.prdEnd.slice(0,4)}} /
+          <v-tooltip bottom>  <template v-slot:activator="{ on, attrs }">
+       <span
+         v-bind="attrs"
+         v-on="on"
+         class="ecoration-underline"
+       >참여연구자</span>
+     </template>
+
+     <span>{{raw.rsc}}</span></v-tooltip> : {{(parseInt(raw.cntRscMan)+parseInt(raw.cntRscWom))}}명 /
+     <v-tooltip bottom>  <template v-slot:activator="{ on, attrs }">
+     <span
+     v-bind="attrs"
+     v-on="on"
+     class="text-decoration-underline"
+     >요약</span>
+     </template>
+
+     <span>{{raw.absAbs}}</span></v-tooltip> /
+     <v-btn text color="primary" :href="kvs[raw.site].link+raw.id" target="_blank">
+         {{raw.site}}
+       </v-btn>
+        </v-list-item-subtitle>
+      </v-list-item-content>
+
+      <v-list-item-content v-if="raw.site == 'SCOPUS'">
+        <v-list-item-title  class="text-sm-left">
+         <div style="white-space:pre-wrap">{{raw.title}} / {{raw.journal}} / {{raw.issue_year}}</div>
+        </v-list-item-title>
+
+        <v-list-item-subtitle class="text-sm-left" >
+
+          저자 : {{raw.author}} / 키워드 : {{raw.paper_keyword}} /  인용 수 : {{raw.citation}} /
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+          <span
+            v-bind="attrs"
+            v-on="on"
+            class="text-decoration-underline"
+          >요약</span>
+        </template>
+
+        <span>{{raw.abstract}}</span></v-tooltip>
+        /<v-btn text color="primary" :href="raw.link+raw.id" target="_blank">{{raw.site}}
+        </v-btn></v-list-item-subtitle>
+       </v-list-item-content>
+       <v-list-item-content v-if="raw.site == 'WOS'">
+         <v-list-item-title  class="text-sm-left">
+       <div style="white-space:pre-wrap">{{raw.title}} / {{raw.issue_inst}} / {{raw.issue_year}}</div>
+           </v-list-item-title>
+
+         <v-list-item-subtitle class="text-sm-left" >
+
+           저자 : {{raw.author}} / 키워드 : {{raw.paper_keyword}} /  인용 수 : {{raw.citation}} /
+           <v-tooltip bottom>
+             <template v-slot:activator="{ on, attrs }">
+           <span
+             v-bind="attrs"
+             v-on="on"
+             class="text-decoration-underline"
+           >요약</span>
+         </template>
+
+         <span>{{raw.abstract}}</span></v-tooltip>
+         /<v-btn text color="primary" :href="kvs[raw.site].link+':'+raw.id" target="_blank">
+           {{raw.site}}
+         </v-btn>
+       </v-list-item-subtitle>
+        </v-list-item-content>
+
+      <v-list-item-content v-if="raw.site == 'SCIENCEON' || raw.site == 'DBPIA'|| raw.site == 'KCI'">
+         <v-list-item-title  class="text-sm-left">{{raw.title}} / {{raw.issue_inst}} / {{raw.issue_year}}
+         </v-list-item-title>
+
+         <v-list-item-subtitle class="wrap-text" >
+
+           저자 : {{makeAuthorName(raw.author, raw.originalName)}} / 키워드 : {{raw.paper_keyword}} /  인용 수 : {{raw.citation}} /
+           <v-tooltip bottom>
+             <template v-slot:activator="{ on, attrs }">
+           <span
+             v-bind="attrs"
+             v-on="on"
+             class="text-decoration-underline"
+           >요약</span>
+         </template>
+
+         <span>{{raw.abstract}}</span></v-tooltip>
+         / <v-btn text color="primary" :href="kvs[raw.site].link+raw.id" target="_blank">
+           {{raw.site}}
+         </v-btn>
+         </v-list-item-subtitle>
+
+       </v-list-item-content>
+
+      <!-- <v-list-item-action>
+        <v-btn icon>
+          <v-icon color="grey lighten-1">mdi-information</v-icon>
+        </v-btn>
+      </v-list-item-action> -->
+
+    </v-list-item>
+
+      </template>
+ </v-list>
+
+</td>
+
+
+<!-- <v-row>
+        <td :colspan="headers.length">
+
+        <v-simple-table>
+
+              <template v-slot:default>
+                <thead>
+                  <tr>
+                    <th>
+                      순번
+                    </th>
+                    <th>제목</th>
+                    <th>키워드</th>
+                    <th>공저자/참여연구원</th>
+                    <th>학회명/지원기관</th>
+                    <th>날짜</th>
+                    <th>요약</th>
+                    <th>웹 연결</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="raw in getIgRaw(item.idx)" :key="raw.idx">
+                     <td>{{ raw.idx }}</td>
+                    <td>{{raw[kvs[raw.site].title]}}</td>
+                    <td>{{raw[kvs[raw.site].keyword]}}</td>
+                    <td>{{raw[kvs[raw.site].author]}}</td>
+                    <td>{{ raw[kvs[raw.site].j] }}</td>
+                    <td>{{ raw[kvs[raw.site].y] }}</td>
+                    <td>요약보기</td>
+                    <td><a :href="kvs[raw.site].link+raw.id" target="_blank">{{raw.site}}</a></td>
+                  </tr>
+                </tbody>
+              </template>
+            </v-simple-table>
+          </td>
+          </v-row> -->
+      </template>
+     </v-data-table>
+ </v-card-text>
+       </v-card>
+   </v-tab-item>
+  </v-tabs>
+    </v-col>
     </v-row>
     </v-layout>
   </v-layout>
@@ -767,6 +1198,7 @@ export default {
     return {
       tab : null,
       loading : false,
+      loading2 : false,
       dialog : false,
       filterDis : true,
       panel : [0, 1],
@@ -842,7 +1274,27 @@ export default {
 
 
       expanded: [],
-      options : {},
+      expanded2: [],
+      options : {
+  page: 1,
+  itemsPerPage: 10,
+  sortBy: [],
+  sortDesc: [],
+  groupBy: [],
+  groupDesc: [],
+  mustSort: false,
+  multiSort: false
+},
+options2 :{
+  page: 1,
+  itemsPerPage: 10,
+  sortBy: [],
+  sortDesc: [],
+  groupBy: [],
+  groupDesc: [],
+  mustSort: false,
+  multiSort: false
+},
       initselected : {'project' : {'inst' : [], 'rsc' : [], 'fund' : [], 'year' : []},
 'paper' : {'inst' : [], 'year' : [], 'journal' : [], 'lang' : []},
     },
@@ -886,6 +1338,32 @@ filterListPaper : { "j" : {"value" : "저널명", "list" : ["한국", "콘텐츠
        { text: '웹 검색', sortable: false , align: 'center',value: 'webSearch', width:'7%'},
 
      ],
+     headers_inter: [
+       {
+         text: 'No.',
+         align: 'start',
+         sortable: false,
+         value: 'idx',
+       },
+      {
+        text: '성명',
+        align: 'start',
+        sortable: true,
+        value: 'name',
+        width:'7%'
+      },
+      { text: '소속', sortable: true , align: 'center', value: 'inst',width:'20%'},
+      { text: '키워드', sortable: false , align: 'center', value: 'LDA', width:'10%'},
+      { text: '논문 수', sortable: true , align: 'center',value: 'numPapers', width:'7%'},
+      { text: '피인용', sortable: true , align: 'center',value: 'totalCitation', width:'7%'},
+      { text: '공동논문', sortable: true , align: 'center',value: 'totalCoop', width:'7%'},
+      { text: '최신 년도', sortable: true , align: 'center',value: 'recentYear', width:'7%'},
+      { text: '정부 과제', sortable: true, align: 'center',value: 'numProjects', width:'7%'},
+      { text: 'NGV 협업', sortable: true , align: 'center',value: 'ngvCoop', width:'7%'},
+      { text: 'NGV 지수 ', sortable: true , align: 'center',value: 'score', width:'7%'},
+      { text: '웹 검색', sortable: false , align: 'center',value: 'webSearch', width:'7%'},
+
+    ],
      headers2: [
        {
          text: 'No.',
@@ -908,11 +1386,14 @@ filterListPaper : { "j" : {"value" : "저널명", "list" : ["한국", "콘텐츠
       { text: '웹 검색', sortable: false , align: 'center',value: 'webSearch'},
 
     ],
+    ContryFilters : [ 'Domestic', 'International'],
       itemsPerPageArray: [5, 8, 12],
       // filterStr : { : '(ALL)' ,  false : '(Korea)'}
       page: 1,
+      // page2: 1,
       itemsPerPage : 10,
-      first : true
+      first : true,
+      first2 : true
     }
   },//data() End
   watch: {
@@ -922,7 +1403,7 @@ filterListPaper : { "j" : {"value" : "저널명", "list" : ["한국", "콘텐츠
           this.first = false;
         }
         else{
-          this.pageReload();
+          this.pageReload(0);
           this.filterDis = false;
         }
         //console.log('THIS.PAGE', this.page);
@@ -930,11 +1411,27 @@ filterListPaper : { "j" : {"value" : "저널명", "list" : ["한국", "콘텐츠
         // this.page = this.options.page;
       },
       deep: true
-    }
+    },
+    options2: {
+      handler(){
+        if(this.first2){
+          this.first2 = false;
+        }
+        else{
+          this.pageReload(1);
+          this.filterDis = false;
+        }
+        //console.log('THIS.PAGE', this.page);
+        //console.log('THIS.OPTIONS.PAGE', this.options.page);
+        // this.page = this.options.page;
+      },
+      deep: true
+    },
+
   },
 
   beforeDestroy() {
-    this.$store.state.integrations = [];
+    this.$store.state.integrations = {'Domestic' : [], 'International':[]};
     this.$store.state.igRaw = {};
     this.$store.state.prevfId = 0;
     this.$store.dispatch('deleteIntegration', this.$store.state.igID);
@@ -999,8 +1496,21 @@ filterListPaper : { "j" : {"value" : "저널명", "list" : ["한국", "콘텐츠
       return "검색결과 : "+ this.getIgTotal + "개";
     },
     getIgs() {
+      console.log("integrations",this.$store.state.integrations)
       return this.$store.state.integrations;
+
     },
+    getDomesticIgs(){
+    console.log("total",this.$store.state.integrations)
+    console.log("Domestic",this.$store.state.integrations.Domestic)
+    // console.log("after igs:",igs.Domestic,igs.International)
+    return this.$store.state.integrations.Domestic;
+  },
+    getInternationalIgs(){
+      console.log("International",this.$store.state.integrations['International'])
+      // console.log("after igs:",igs.Domestic,igs.International)
+      return this.$store.state.integrations.International;
+  },
     getRankInsts() {
       return this.$store.state.rankinst;
     },
@@ -1024,6 +1534,12 @@ filterListPaper : { "j" : {"value" : "저널명", "list" : ["한국", "콘텐츠
     },
     getIgTotal(){
       return this.$store.state.igTotal;
+    },
+    getigDomestic(){
+      return this.$store.state.igDomestic;
+    },
+    getigInternational(){
+      return this.$store.state.igInternational;
     },
     getIgRaw(){
       return idx => this.$store.state.igRaw[idx];
@@ -1054,7 +1570,8 @@ filterListPaper : { "j" : {"value" : "저널명", "list" : ["한국", "콘텐츠
     //   }
     },
     checkSpecificKey(str) {
-      var specialKey = "[`~#@%$^&*()={}':;',\\[\\].<>/?~！#￥……&*（）??{}【】‘；：”“'。，、？]‘'";
+      // var specialKey = "[`~#@%$^&*={}':;',\\[\\].<>/?~#￥……&*（）??{}【】‘；：”“'。，、？]‘'";
+      var specialKey = "[~#@%$^&*={}:;,\\[\\].<>/?~#￥……&*??{}【】；：”“。，、？]";
       for (var i = 0; i < str.length; i++) {
         if (specialKey.indexOf(str.substr(i, 1)) != -1) {
           return false;
@@ -1083,19 +1600,26 @@ filterListPaper : { "j" : {"value" : "저널명", "list" : ["한국", "콘텐츠
           let type = ""
           // if(word.charAt(0) === "\"" && word.charAt(word.length-1) === "\"")
           if(word.charAt(0) === "|"){
-          type = "OR";
-          word = word.replace(/\|/g, "");
-          }
-          else if(word.charAt(0) === "!"){
+            type = "OR";
+            word = word.replace(/\|/g, "");
+            word = this.insertbracket(word);
+            console.log("or word",word);
+            }
+            else if(word.charAt(0) === "!"){
 
-            type = "NOT";
-            word = word.replace(/!/g, "");
-          }
-          else
-          type = "AND";
+              type = "NOT";
+              word = word.replace(/!/g, "");
+              word = this.insertbracket(word);
+              console.log("not word",word);
+
+            }
+            else
+            type = "AND";
+            word = this.insertbracket(word);
+            console.log("and word",word);
 
 
-          this.searches.push({word, type})
+            this.searches.push({word, type})
           //this.searches.push({word: word.replace(/!/g, ""), type : type})
         }
       })
@@ -1114,7 +1638,7 @@ filterListPaper : { "j" : {"value" : "저널명", "list" : ["한국", "콘텐츠
         }
         if (!this.checksites()){
           if(this.checkKor(this.keywords.trim())){
-            this.$store.commit('showSnack', "해외 사이트는 한글 검색이 지원 되지 않습니다.");
+            // this.$store.commit('showSnack', "해외 사이트는 한글 검색이 지원 되지 않습니다.");
             this.removeEnsites();
               if(this.checkDuplicationHistories())
                 return;
@@ -1144,6 +1668,13 @@ filterListPaper : { "j" : {"value" : "저널명", "list" : ["한국", "콘텐츠
     removeKeyword(idx){
       this.searches.splice(idx, 1)
     },
+    insertbracket(word){
+      word = word.replace(/\(/g,`'('`);
+      word = word.replace(/\)/g,`')'`);
+      word = word.replace(/''/g,`'`);
+      console.log("word",word)
+      return word
+    },
     setKeywords() {
       let rtv = ''
       let size = this.searches.length - 1
@@ -1162,6 +1693,9 @@ filterListPaper : { "j" : {"value" : "저널명", "list" : ["한국", "콘텐츠
         }
         if (size != idx) rtv += ' '
       })
+      rtv = rtv.replace(/\(/g,`"("`)
+      rtv = rtv.replace(/\)/g,`")"`)
+      console.log("rtv",rtv)
       this.keywords = rtv
       this.searchDialog = false
     },
@@ -1294,7 +1828,32 @@ filterListPaper : { "j" : {"value" : "저널명", "list" : ["한국", "콘텐츠
           console.log('ITEM.RAWS', item);
       }
     },
+    async loadDetails2({item}){
 
+      if(this.getIgRaw(item.idx) === undefined){
+        // console.log('CONDITION PASSED');
+        // console.log('ITEM', item);
+        // item.raws = [{"title" : "Test"}];
+        // console.log("expand");
+        // this.expanded
+        console.log('THIS.EXPANDED', this.expanded2);
+        // let t = this;
+        this.expanded2.filter(x=> x==item);
+
+
+      //   this.$store.dispatch('getIntegrationRaw', item).then(()=>{
+      //     t.expanded.push(item);
+      // });
+        // .then(res => {item.raws = res;
+        //   console.log('ITEM.RAWS', res);
+        //   console.log('  T.$REFS.VUETABLE',   t.$refs.vuetable);
+        //   // t.$refs.vuetable.refresh();
+        //   t.$forceUpdate();
+        // });
+      }else{
+          console.log('ITEM.RAWS', item);
+      }
+    },
     getTotal(){
       // console.log('THIS.GETIGS', this.getIgs);
       // if (this.getIgTotal >50)
@@ -1302,19 +1861,38 @@ filterListPaper : { "j" : {"value" : "저널명", "list" : ["한국", "콘텐츠
       // else
         return this.getIgTotal
     },
-    pageReload(){
-      let data = {};
-      data.keyId = this.$store.state.igID;
-      data.options = this.options;
-      this.page = this.options.page;
-      data.fId = this.$store.state.prevfId;
-      this.loading = true;
-      let t = this;
-      this.$store.dispatch('getReloadPage', data).then(()=>{
-        t.loading = false;
-
-      });
+    getDomesticTotal(){
+      return this.getigDomestic
+    },
+    getInternationalTotal(){
+      return this.getigInternational
   },
+  pageReload(flag){
+    let data = {};
+    data.keyId = this.$store.state.igID;
+    data.flag= flag;
+    if(flag == 0){
+      data.options = this.options;
+      this.loading = true;
+    }
+    else{
+      data.options = this.options2;
+this.loading2 = true;
+
+    }
+
+    data.fId = this.$store.state.prevfId;
+
+    let t = this;
+    this.$store.dispatch('getReloadPage', data).then(()=>{
+      if(t.flag == 0)
+      t.loading = false;
+      else {
+        t.loading2 = false;
+      }
+
+    });
+},
     setFilter(){
       // this.selected
 
@@ -1332,16 +1910,21 @@ filterListPaper : { "j" : {"value" : "저널명", "list" : ["한국", "콘텐츠
       let data = {};
       // console.log('IPG()', this.itemsPerPage);
       this.fisrt = false;
+      this.first2 = false;
 
       data.keyId = this.$store.state.igID;
       data.options = this.options;
+    //  data.options2 = this.options2;
       data.options.page = 1;
+//      data.options2.page = 1;
       let t = this;
       // t.selected = t.initselected;
       this.loading = true;
+      this.loading2 = true;
       this.$store.dispatch('getIntegrationResult', data).then((sel) =>{
         console.log('SEL', sel);
         t.loading = false;
+        t.loading2 = false;
         t.filterDis = false;
         // sel.filters
 

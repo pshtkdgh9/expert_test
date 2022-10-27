@@ -307,7 +307,7 @@ export default {
 
       },
       checkSpecificKey(str) {
-        var specialKey = "[`~#@%$^&*()={}':;',\\[\\].<>/?~！#￥……&*（）??{}【】‘；：”“'。，、？]‘'";
+        var specialKey = "[~#@%$^&*={}:;,\\[\\].<>/?~#￥……&*??{}【】；：”“。，、？]";
         for (var i = 0; i < str.length; i++) {
           if (specialKey.indexOf(str.substr(i, 1)) != -1) {
             return false;
@@ -329,6 +329,53 @@ export default {
             }, 10000);
       },
       translteKeywords(){
+
+        // var keywords = this.keywords
+        // var stack = []
+        // let word = ""
+        // let type = ""
+        // var words = keywords.split("");
+        // for (var i = 0; i < words.length; i++) {
+        //   if (words[i].charAt(0) === "|" && words[i].includes("(")){
+        //     type ="OR";
+        //     temp+=words[i]
+        //   }
+        //   else if(word.charAt(0) === "!"&& word[i].includes("(")){
+        //     type ="NOT";
+        //     temp+=words[i]
+        //   }
+        //
+        //     if(words[i].charAt(0) === "|" && !word[i].includes("(")){
+        //     type = "OR";
+        //     words[i] = words[i].replace(/\|/g, "");
+        //     temp+=words[i]
+        //     }
+        //     else if(word.charAt(0) === "!"&& !word[i].includes("(")){
+        //
+        //       type = "NOT";
+        //       words[i] = words[i].replace(/!/g, "");
+        //       temp+=words[i]
+        //     }
+        //     else{
+        //     temp+=words[i]
+        //
+        //   }
+        //     this.searches.push({words[i], type})
+        //     word = "";
+        //     type = "";
+        //     stack.append("(");
+        //     word+=i;
+        //   }
+        //   else if(keywords[i] == ")"){
+        //     stack.pop();
+        //     word+=i;
+        //     this.searches.push({word, type})
+        //     word = "";
+        //   }
+        //   else{
+        //     word +=i;
+        //   }
+        // }
         this.searches = []
         this.keywords.trim().split(' ').forEach(word => {
 
@@ -338,20 +385,43 @@ export default {
             if(word.charAt(0) === "|"){
             type = "OR";
             word = word.replace(/\|/g, "");
+            word = this.insertbracket(word);
+            console.log("or word",word);
             }
             else if(word.charAt(0) === "!"){
 
               type = "NOT";
               word = word.replace(/!/g, "");
+              word = this.insertbracket(word);
+              console.log("not word",word);
+
             }
             else
             type = "AND";
+            word = this.insertbracket(word);
+            console.log("and word",word);
 
 
             this.searches.push({word, type})
             //this.searches.push({word: word.replace(/!/g, ""), type : type})
           }
         })
+        // for (var i = 0; i < this.searches.length; i++){
+        //   if (this.searches[i].word.includes("(")){
+        //     temp.push(i)
+        //   }
+        //   else if (temp.length != 0){
+        //     temp.push(i)
+        //   }
+        //   else if (this.searches[i].word.includes(")")){
+        //     var temp_string = '';
+        //     for (var j = 0; temp.length; j++){
+        //       temp_string += this.searches[temp[j]].word
+        //     }
+        //     this.searches[temp[0]] = {temp_string, this.searches[temp[0].type]}
+        //   }
+        // }
+
       },
       search(){
         this.translteKeywords();
@@ -367,7 +437,7 @@ export default {
           }
           if (!this.checksites()){
             if(this.checkKor(this.keywords.trim())){
-              this.$store.commit('showSnack', "해외 사이트는 한글 검색이 지원 되지 않습니다.");
+              // this.$store.commit('showSnack', "해외 사이트는 한글 검색이 지원 되지 않습니다.");
               this.removeEnsites();
                 if(this.checkDuplicationHistories())
                   return;
@@ -397,6 +467,13 @@ export default {
       removeKeyword(idx){
         this.searches.splice(idx, 1)
       },
+      insertbracket(word){
+        word = word.replace(/\(/g,`'('`);
+        word = word.replace(/\)/g,`')'`);
+        word = word.replace(/''/g,`'`);
+        console.log("word",word)
+        return word
+      },
       setKeywords() {
         let rtv = ''
         let size = this.searches.length - 1
@@ -412,9 +489,18 @@ export default {
             case 2:
             rtv += '!' + w.word
             break
+            // case 3:
+            // rtv += '(' + w.word
+            // break
+            // case 4:
+            // rtv += w.word + ")"
+            // break
           }
           if (size != idx) rtv += ' '
         })
+        // rtv = rtv.replace(/\(/g,`'('`)
+        // rtv = rtv.replace(/\)/g,`')'`)
+        console.log("rtv",rtv)
         this.keywords = rtv
         this.searchDialog = false
       },
