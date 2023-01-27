@@ -1,0 +1,57 @@
+{
+  "name": "expert",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "@mdi/js": "^5.3.45",
+    "axios": "^0.19.2",
+    "core-js": "^3.6.4",
+    "file-saver": "^2.0.2",
+    "vue": "^2.6.11",
+    "vue-cli": "^2.9.6",
+    "vue-d3-network": "^0.1.28",
+    "vue-router": "^3.1.6",
+    "vuetify": "^2.2.14",
+    "vuetify-loader": "^1.4.3",
+    "vuex": "^3.1.2",
+    "vuex-persistedstate": "^4.1.0",
+    "xlsx": "^0.16.3"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^4.2.0",
+    "@vue/cli-plugin-eslint": "^4.2.0",
+    "@vue/cli-service": "^4.2.0",
+    "babel-eslint": "^10.0.3",
+    "deepmerge": "^4.2.2",
+    "eslint": "^6.7.2",
+    "eslint-plugin-vue": "^6.1.2",
+    "fibers": "^4.0.2",
+    "material-design-icons-iconfont": "^5.0.1",
+    "sass": "^1.26.0",
+    "sass-loader": "^8.0.2",
+    "vue-template-compiler": "^2.6.11"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "babel-eslint"
+    },
+    "rules": {}
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions"
+  ]
+}
